@@ -8,6 +8,7 @@ from src.backend.utils.point import Point
 from src.backend.utils.benchmark import Benchmarker
 from src.backend.utils.heap import Heap
 import src.backend.utils.measures as measures
+import json
 
 class IVFFlat: 
     def __init__(
@@ -84,8 +85,6 @@ class IVFFlat:
 
         benchmark.end("closest-points")
 
-        if self.verbose: 
-            print(benchmark.summary())
 
         results = heap.extract() 
         results.reverse()
@@ -111,7 +110,7 @@ class IVFFlat:
 
         heap = Heap(comparator=lambda a, b: a[1] - b[1], max_size=k)
 
-        benchmark.start("closest-points")
+        benchmark.start("farthest-points")
         
         probed_count  = 0 
         while probed_count < probe_count or heap.size() < k: 
@@ -128,7 +127,7 @@ class IVFFlat:
 
             probed_count += 1
 
-        benchmark.end("closest-points")
+        benchmark.end("farthest-points")
 
         if self.verbose: 
             print(benchmark.summary())
@@ -141,5 +140,27 @@ class IVFFlat:
     def farthest_centroids(self, target, k=10, probe_count=3):
         cluster_count = self.cluster_count
         indexer = BruteForceNNS() 
-        indexer.build(self.centroids)
+        indexer.build(self.centroids[:])
         return indexer.farthest(target, cluster_count)
+
+    def save(self, file_path): 
+        centroids = []
+        for p in self.centroids:
+            if type(p.value) is np.ndarray: 
+                centroids.append(p.value.tolist())
+            else: 
+                centroids.append(p.value)
+        data = {
+            "centroids" : centroids,
+            "clusters"  : self.clusters
+        }
+        json.dump(data, open(file_path, "w"))
+
+    def load(self, file_path): 
+        data = json.load(open(file_path, "r"))
+        self.clusters = data["clusters"] 
+        self.centroids = \
+            [
+                Point(index, data["centroids"][index]) 
+                for index in range(len(data["centroids"]))
+            ]
