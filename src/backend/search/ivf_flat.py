@@ -57,7 +57,7 @@ class IVFFlat:
             self.clusters[self.clusterer.labels_[i]].append(i)
 
     def nearest(self, target, k=10, probe_count=3): 
-        cluster_count = self.cluster_count 
+        cluster_count = len(self.centroids)
 
         benchmark = Benchmarker() 
         benchmark.start("sort-centroids")
@@ -95,17 +95,17 @@ class IVFFlat:
         return indices, distances, benchmark
 
     def closest_centroids(self, target, k = 10, probe_count = 3): 
-        cluster_count = self.cluster_count
+        cluster_count = len(self.centroids)
         indexer = BruteForceNNS() 
         indexer.build(self.centroids)
         return indexer.nearest(target, cluster_count)
 
     def farthest(self, target, k=10, probe_count=3): 
-        cluster_count = self.cluster_count 
+        cluster_count = len(self.centroids)
 
         benchmark = Benchmarker() 
         benchmark.start("sort-centroids")
-        closest_centroids = self.closest_centroids(target) 
+        farthest_centroids = self.farthest_centroids(target) 
         benchmark.end("sort-centroids")
 
         heap = Heap(comparator=lambda a, b: a[1] - b[1], max_size=k)
@@ -114,7 +114,7 @@ class IVFFlat:
         
         probed_count  = 0 
         while probed_count < probe_count or heap.size() < k: 
-            probe_cluster_id = closest_centroids[0][probed_count]
+            probe_cluster_id = farthest_centroids[0][probed_count]
             cluster_point_ids = self.clusters[probe_cluster_id]
             cluster_points = [self.points[id_] for id_ in cluster_point_ids]
             
@@ -132,13 +132,16 @@ class IVFFlat:
         if self.verbose: 
             print(benchmark.summary())
 
+        results = heap.extract() 
+        results.reverse()
+
         indices = [x[0] for x in results]
         distances = [x[1] for x in results]
 
         return indices, distances, benchmark
 
     def farthest_centroids(self, target, k=10, probe_count=3):
-        cluster_count = self.cluster_count
+        cluster_count = len(self.centroids)
         indexer = BruteForceNNS() 
         indexer.build(self.centroids[:])
         return indexer.farthest(target, cluster_count)
