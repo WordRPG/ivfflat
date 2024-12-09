@@ -1,6 +1,7 @@
 {
   "name": "ivfflat",
   "version": "1.0.0",
+  "type" : "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,8 +16,9 @@
     "url": "https://github.com/WordRPG/ivfflat/issues"
   },
   "homepage": "https://github.com/WordRPG/ivfflat#readme",
-  "description": "",
+  "description": "A simple (minimal) implementation of IVFFlat for Node.js (works in the browser).",
   "dependencies": {
-    "chance": "^1.1.12"
+    "chance": "^1.1.12",
+    "redline": "^1.0.1"
   }
 }

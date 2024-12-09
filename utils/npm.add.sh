@@ -5,6 +5,6 @@ echo "--- INSTALLING PACKAGES"
 npm install $@
 
 echo "--- LINKING PROJECT FOLDER"
-ln -s ../ node_modules/\$
+ln -s ../ node_modules/ivfflat
 
 echo "--- DONE."
