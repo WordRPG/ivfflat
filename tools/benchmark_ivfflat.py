@@ -16,7 +16,7 @@ points = [Point(index, points[index]) for index in range(len(points))]
 print("Building indexer.")
 indexer = IVFFlat() 
 indexer.points = points 
-indexer.load("./data/indexers/glove-wiki-gigaword-50.json")
+indexer.load("./data/indexers/glove-wiki-gigaword-50.10k.json")
 
 print("Benchmarking indexer.")
 benchmarker = SearchBenchmarker(points, indexer = indexer)
@@ -43,7 +43,7 @@ i = 0
 n = len(targets)
 for target in targets: 
     print(f"Benchmarking {i} of {n}")
-    recalls, times, diffs = benchmarker.run(target, QUERY_COUNT, PROBE_COUNT)
+    recalls, times = benchmarker.run(target, QUERY_COUNT, PROBE_COUNT)
     recalls_all.append(recalls) 
     
     print("Recalls :", recalls)

@@ -33,20 +33,22 @@ class SearchBenchmarker:
 
         recalls  = [-1 for i in range(11)]
         
-
         # --- recall keypoints 
         prev_recall = 0 
         s = k
-        while prev_recall < 1.0: 
+        while prev_recall < 0.99: 
             s += 1 
             recall = self.recall(expected[0][:s], observed[0])
+            if recall == 0.99:
+                recall = 1.0
             rounded_recall = int(recall * 10)
             if recalls[rounded_recall]  == -1:
                 recalls[rounded_recall] = s
             prev_recall = recall
-            diffs.append(expected[1][s - 1] - observed[1][-1])
+            if s > 10000: 
+                print(s, recall, end="\r")
 
-        return recalls, benchmark, diffs
+        return recalls, benchmark
     
     def recall(self, expected, observed): 
         expectedIds = set(expected.tolist())
