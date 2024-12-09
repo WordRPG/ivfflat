@@ -9,4 +9,4 @@ class Point:
 
     def at(self, i): 
         return self.value[i]
-    
+        
