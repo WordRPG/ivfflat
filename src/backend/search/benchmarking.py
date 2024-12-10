@@ -36,7 +36,7 @@ class SearchBenchmarker:
         # --- recall keypoints 
         prev_recall = 0 
         s = k
-        while prev_recall < 0.99: 
+        while prev_recall <= 0.99: 
             s += 1 
             recall = self.recall(expected[0][:s], observed[0])
             if recall == 0.99:

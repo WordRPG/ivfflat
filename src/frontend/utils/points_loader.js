@@ -33,6 +33,7 @@ export class PointsLoader
      */
     static save(filePath, array, dims, { batchSize = 250000, onSavePoints = null } = {}) {
 		let buffer = []
+		batchSize = Math.min(batchSize, array.length)
 		if(fs.existsSync(filePath)) {
 			fs.unlinkSync(filePath)
 		}

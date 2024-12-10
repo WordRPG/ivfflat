@@ -8,24 +8,28 @@ const benchmarker = new Benchmarker()
 
 console.log("Loading points.")
 let points = 
-    PointsLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50) 
+    PointsLoader.load("./data/word-embeddings/wordrpg-glove-2024/vectors.norm.bin", 50) 
 points = points.map((point, index) => new Point(index, point))
 
 console.log("Building indexer.")
 benchmarker.start("build")
 const source = 
-    JSON.parse(fs.readFileSync("./data/indexers/glove-raw/glove-wiki-gigaword-50.5k.json"))
+    JSON.parse(
+        fs.readFileSync(
+            "./data/indexers/wordrpg-glove-2024/indexer.json"
+        )
+    )
 const indexer = 
     new IVFFlat(source) 
 indexer.setPoints(points)
 benchmarker.end("build")
 
 console.log("Querying indexer.") 
-const target = points[30] 
+const target = points[20] 
 const k = 10
 
 benchmarker.start("query")
-const results = indexer.nearest(target, k, 100)
+const results = indexer.nearest(target, k, 150)
 benchmarker.end("query")
 
 console.log(results[0])

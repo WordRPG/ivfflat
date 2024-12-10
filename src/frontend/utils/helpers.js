@@ -59,7 +59,9 @@ export function subdivide(array, k) {
 export function flatten(array) {
 	let flattened = [] 
 	for(let item of array) {
-		flattened = flattened.concat(item)
+    for(let subItem of item) {
+      flattened.push(subItem)
+    }
 	}
 	return flattened
 }

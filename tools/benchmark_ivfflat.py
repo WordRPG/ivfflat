@@ -10,13 +10,14 @@ import sys
 random.seed(1234567890)
 
 print("Loading points.")
-points = PointsLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50)
+points = PointsLoader.load("./data/word-embeddings/wordrpg-glove-2024/vectors.norm.bin", 50)
 points = [Point(index, points[index]) for index in range(len(points))]
 
 print("Building indexer.")
 indexer = IVFFlat() 
 indexer.points = points 
-indexer.load("./data/indexers/glove-wiki-gigaword-50.10k.json")
+indexer.load("./data/indexers/wordrpg-glove-2024/indexer.json")
+
 
 print("Benchmarking indexer.")
 benchmarker = SearchBenchmarker(points, indexer = indexer)
