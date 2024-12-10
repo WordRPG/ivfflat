@@ -1,4 +1,4 @@
-from src.backend.utils.points_loader import PointLoader 
+from src.backend.utils.points_loader import PointsLoader 
 from src.backend.search.ivf_flat import IVFFlat
 from src.backend.utils.point import Point
 from src.backend.search.benchmarking import SearchBenchmarker
@@ -10,7 +10,7 @@ import sys
 random.seed(1234567890)
 
 print("Loading points.")
-points = PointLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50)
+points = PointsLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50)
 points = [Point(index, points[index]) for index in range(len(points))]
 
 print("Building indexer.")

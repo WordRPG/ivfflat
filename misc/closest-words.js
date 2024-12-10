@@ -1,6 +1,6 @@
 import { IVFFlat } from "ivfflat/src/frontend/search/ivf_flat.js"
 import { Random } from "../src/frontend/utils/random.js"
-import { PointLoader } from "../src/frontend/utils/points_loader.js"
+import { PointsLoader } from "../src/frontend/utils/points_loader.js"
 import { Point } from "../src/frontend/utils/point.js"
 import fs from "fs"
 import readlinkSync from 'readline-sync';
@@ -24,11 +24,16 @@ for(let i = 0; i < vocabulary.length; i++) {
 // --- load vectors --- //
 console.log("Loading points.")
 let vectors = 
-    PointLoader.load(embeddingFolder + "/vectors.norm.bin", 50) 
+    PointsLoader.load(embeddingFolder + "/vectors.norm.bin", 50) 
 vectors = vectors.map((vector, index) => new Point(index, vector))
 
 console.log("Building indexer.")
-const indexer = new IVFFlat("./data/indexers/glove-raw/glove-wiki-gigaword-50.5k.json")
+const source = 
+    JSON.parse(
+        fs.readFileSync("./data/indexers/glove-raw/glove-wiki-gigaword-50.5k.json")
+    )
+const indexer = 
+    new IVFFlat(source)
 indexer.setPoints(vectors)
 
 let correct = 0 

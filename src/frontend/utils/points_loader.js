@@ -4,7 +4,7 @@
 import * as helpers from "ivfflat/src/frontend/utils/helpers.js"
 import fs from "fs"
 
-export class PointLoader 
+export class PointsLoader 
 {
     /**
      * Loads a BA2D file into an array.

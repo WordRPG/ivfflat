@@ -1,4 +1,4 @@
-import { PointLoader } from "../../src/frontend/utils/points_loader.js";
+import { PointsLoader } from "../../src/frontend/utils/points_loader.js";
 import { Point } from "../../src/frontend/utils/point.js";
 import { BruteForceNNS } from "../../src/frontend/search/brute_force.js";
 import { Benchmarker } from "../../src/frontend/utils/benchmark.js";
@@ -6,7 +6,7 @@ import { Benchmarker } from "../../src/frontend/utils/benchmark.js";
 const benchmarker = new Benchmarker()
 
 console.log("Loading points.")
-let points = PointLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50) 
+let points = PointsLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50) 
 points = points.map((point, index) => new Point(index, point))
 
 console.log("Building indexer.")

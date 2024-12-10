@@ -1,11 +1,13 @@
-from src.backend.utils.points_loader import PointLoader 
+from src.backend.utils.points_loader import PointsLoader 
 from src.backend.search.ivf_flat import IVFFlat
 from src.backend.utils.point import Point
 import os
 
 print("Loading points.")
-points = PointLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50)
-points = [Point(index, points[index]) for index in range(len(points))]
+points = \
+    PointsLoader.load("./data/word-embeddings/glove-wiki-gigaword-50/vectors.norm.bin", 50)
+points = \
+    [Point(index, points[index]) for index in range(len(points))]
 
 print("Building indexer.")
 indexer = IVFFlat(

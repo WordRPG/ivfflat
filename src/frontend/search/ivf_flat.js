@@ -18,7 +18,7 @@ export class IVFFlat
     }
 
     loadSource() {
-        const data = JSON.parse(fs.readFileSync(this.source))
+        const data = this.source
         this.centroids = 
             data.centroids.map((value, index) => new Point(index, value))
         this.clusters = data.clusters

@@ -8,7 +8,7 @@ import math
 import array
 import src.backend.utils.helpers as helpers
 
-class PointLoader: 
+class PointsLoader: 
     def load(
         file_path, 
         dims, 
