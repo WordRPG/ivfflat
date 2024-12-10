@@ -1,4 +1,3 @@
-import fs from "fs"
 import { Point } from "../utils/point.js"
 import { BruteForceNNS } from "./brute_force.js"
 import { Heap } from "../utils/heap.js"
